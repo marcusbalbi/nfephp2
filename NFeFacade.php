@@ -204,29 +204,36 @@ class NFeFacade {
         }
     }
 
-    public function danfeNFeImprimir($pathXml)
+    public function danfeNFeImprimir($chNFe,$sOrientacao = '', $sPapel = '', $sPathLogo = '')
     {
-        
+        $pathXml = $this->toolsNFe->aprDir."/NFe{$chNFe}-procNfe.xml";
+     
         if (is_file($pathXml)) {
             $docxml = file_get_contents($pathXml);
-            $danfe = new \DanfeNFePHP($docxml, 'P', 'A4', '../images/logo.jpg', 'I', '');
+            
+            $danfe = new \DanfeNFePHP($docxml, $sOrientacao, $sPapel, $sPathLogo, 'I', '');
+            
             $id = $danfe->montaDANFE();
             
             $danfe->printDANFE($id . '.pdf', 'I'); 
-            
+           
         }
     }
     
-    public function danfeNFeSalvar($pathXml)
+    public function danfeNFeSalvar($chNFe,$sOrientacao = '', $sPapel = '', $sPathLogo = '')
     {
+         $pathXml = $this->toolsNFe->aprDir."/NFe{$chNFe}-procNfe.xml";
+        
          if (is_file($pathXml)) {
             $docxml = file_get_contents($pathXml);
             $pathinfo = pathinfo($pathXml);
-            $danfe = new \DanfeNFePHP($docxml, 'P', 'A4', '../images/logo.jpg', 'I', '');
+            $danfe = new \DanfeNFePHP($docxml ,$sOrientacao = '', $sPapel = '', $sPathLogo = '');
             $id = $danfe->montaDANFE();
             $pdf = $danfe->printDANFE($id . '.pdf', 'S');
             
             $this->salvarArquivo($this->toolsNFe->pdfDir.$pathinfo['filename'].".pdf", $pdf);
+            
+            return $this->toolsNFe->pdfDir.$pathinfo['filename'].".pdf";
         }
     }
 
