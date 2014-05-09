@@ -1,0 +1,53 @@
+{
+    "name": "marcusbalbi/nfephp2",
+    "type": "library",
+    "description": "API copiada de NFEPHP para para ser refatorada para as minhas necessidades",
+    "license": "GPL 3",
+    "authors": [
+        {
+            "name": "Marcus Vinicius Balbi",
+            "email": "marcusbalbi@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "itbz/fpdf": "1.7.2",
+        "phpmailer/phpmailer": ">=v5.2.6",
+        "mpdf/mpdf": "v5.7.1",
+        "ext-dom": "*",
+        "ext-xml": "*",
+        "ext-libxml": "*",
+        "ext-xmlreader": "*",
+        "ext-curl": "*",
+        "ext-soap": "*",
+        "ext-gd": "*",
+        "ext-mcrypt": "*",
+        "ext-openssl": "*",
+        "ext-zip": "*",
+        "ext-zlib": "*",
+        "ext-fileinfo": "*",
+        "ext-iconv": "*",
+        "ext-mbstring": "*",
+        "openlss/lib-array2xml": "dev-master",
+        "endroid/qrcode": "dev-master",
+        "symfony/yaml": "v2.4.3"
+    },
+    "require-dev": {
+        "ext-xdebug": "*",
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "NFEPHP2\\NFe\\" : "src/NFe/",
+            "NFEPHP2\\Test\\" : "tests/NFe/",
+            "NFEPHP2\\" : ""
+        },
+        "files": ["src/NFe/Legado/ToolsNFePHP.php",
+                  "src/NFe/Legado/DanfeNFePHP.class.php",
+                  "src/NFe/Legado/DacceNFePHP.class.php"
+                  ]
+    },
+    "config": {
+        "vendor-dir": "src/vendor"
+    }
+}
