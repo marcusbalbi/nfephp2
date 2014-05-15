@@ -23,8 +23,6 @@
         "ext-gd": "*",
         "ext-mcrypt": "*",
         "ext-openssl": "*",
-        "ext-zip": "*",
-        "ext-zlib": "*",
         "ext-fileinfo": "*",
         "ext-iconv": "*",
         "ext-mbstring": "*",
