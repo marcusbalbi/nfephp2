@@ -30,7 +30,7 @@ class NFeFacade {
 
 
     public function __construct($config = null) {
-        
+
         if(empty($config))
         {
             $arrayConfig = Yaml::parse("config/config.yml");
@@ -255,7 +255,7 @@ class NFeFacade {
         }
         else
         {
-            throw new NfeInutilizarException("Erro ao Inutilizar NFe Msg:<br>".$this->toolsNFe->errMsg,'','');
+            throw new NfeInutilizarException("Erro ao Inutilizar NFe Msg:<br>".$this->toolsNFe->errMsg);
         }
         
     }
@@ -284,18 +284,21 @@ class NFeFacade {
             return  $leitor->lerRetorno();    
         }
         else  {
-             throw new NfeEnviarCCeException("Erro ao Cancelar NFe:<br>".$this->toolsNFe->errMsg);
+             throw new NfeEnviarCCeException("Erro ao enviar CCe NFe:<br>".$this->toolsNFe->errMsg);
         }
         
         
         
     }
     
-    public function imprimirCCe($pathXml,$aEnd)
+    public function imprimirCCe($chNFe,$nSeqEvento,$aEnd)
     {
+        $pathXml = $this->toolsNFe->cccDir."/{$chNFe}-{$nSeqEvento}-procCCe.xml";
+        
         if (is_file($pathXml)) {
             $cce = new \DacceNFePHP($pathXml, 'P', 'A4', '../images/logo.jpg', 'I', $aEnd, '', 'Times', 1);
-            $teste = $cce->printCCe('teste.pdf', 'I');
+           
+            return $cce->printCCe('{$chNFe}-{$nSeqEvento}-procCCe.pdf', 'I');
         }
     }
 
