@@ -116,13 +116,13 @@ class transp implements NFeGeradorInterface {
         $X03 = (is_object($this->transporta)) ? $X01->appendChild($this->transporta->getXml($dom)) : null;
         $X11 = (is_object($this->retTransp))  ? $X01->appendChild($this->retTransp->getXml($dom))  : null;
         $X18 = (is_object($this->veicTransp)) ? $X01->appendChild($this->veicTransp->getXml($dom)) : null;
-        if(is_array($this->reboque)) {
+        if(is_array($this->reboque) && !empty($this->reboque)) {
             for ($i=0; $i<count($this->reboque); $i++) {
                 $X22 = $X01->appendChild($this->reboque[$i]->getXml($dom));
             }
         }
         
-        if(is_array($this->vol)) {
+        if(is_array($this->vol) && !empty($this->vol)) {
             for ($i=0; $i<count($this->vol); $i++) {
                 $X26 = $X01->appendChild($this->vol[$i]->getXml($dom));
             }

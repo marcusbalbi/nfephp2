@@ -47,7 +47,13 @@ class transporta implements NFeGeradorInterface {
 
     public function getXml(DOMDocument $dom) {
         $X03 = $dom->appendChild($dom->createElement('transporta'));
-        $X04 = (empty($this->CPF)) ? $X03->appendChild($dom->createElement('CNPJ', sprintf("%014s", $this->CNPJ))) : $X03->appendChild($dom->createElement('CPF', sprintf("%011s", $this->CPF)));
+        
+        if(empty($this->CPF) && empty($this->CNPJ)) {
+            $X04 = null;
+        }
+        else
+            $X04 = (empty($this->CPF)) ? $X03->appendChild($dom->createElement('CNPJ', sprintf("%014s", $this->CNPJ))) : $X03->appendChild($dom->createElement('CPF', sprintf("%011s", $this->CPF)));
+        
         //X05 - ou exclusivo com X04
         $X06 = (!empty($this->xNome))   ? $X03->appendChild($dom->createElement('xNome',    $this->xNome))  : null;
         $X07 = (!empty($this->IE))      ? $X03->appendChild($dom->createElement('IE',       $this->IE))     : null;
