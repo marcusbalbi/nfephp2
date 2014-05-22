@@ -69,15 +69,21 @@ class NFeFacade {
 
     public function __construct($config = null) {
 
-        if(empty($config))
+        try
         {
-            $arrayConfig = Yaml::parse("config/config.yml");
+            if(empty($config))
+            {
+                throw new Exception("Configuração Vazia");
+            }
             
-            $config = array_shift($arrayConfig);
-
-        }
+          
          $this->dir =  realpath(dirname(__FILE__));
          $this->toolsNFe = new ToolsNFePHP ($config);
+        }
+        catcH(Exception $e)
+        {
+            throw $e;
+        }
         
     }
 
@@ -144,25 +150,32 @@ class NFeFacade {
     
     public function assinarNFe($chNFe)
     {
-        $path = $this->toolsNFe->valDir."NFe{$chNFe}.xml";   
-        $xml = file_get_contents($path);
-        
-        $pathinfo = pathinfo($path);
+        try
+        {
+            $path = $this->toolsNFe->valDir."NFe{$chNFe}.xml";   
+            $xml = file_get_contents($path);
 
-        if ($xml = $this->toolsNFe->signXML($xml, 'infNFe')) {
+            $pathinfo = pathinfo($path);
 
-            $newPath = $this->toolsNFe->assDir.$pathinfo['basename'];
-           
-            $this->salvarArquivo($newPath, $xml);
-            
-           //TODO remover arquivo antigo?
-            
-            $reposta = array('chNFe'=>$chNFe,'path'=>$newPath);
-            
-            return $reposta;
-            
-        } else {
-            throw new NfeAssinarException("Erro ao Assinar Arquivo");
+            if ($xml = $this->toolsNFe->signXML($xml, 'infNFe')) {
+
+                $newPath = $this->toolsNFe->assDir.$pathinfo['basename'];
+
+                $this->salvarArquivo($newPath, $xml);
+
+               //TODO remover arquivo antigo?
+
+                $reposta = array('chNFe'=>$chNFe,'path'=>$newPath);
+
+                return $reposta;
+
+            } else {
+                throw new NfeAssinarException("Erro ao Assinar Arquivo");
+            }
+        }
+        catcH(Exception $e)
+        {
+            throw $e;
         }
         
     }

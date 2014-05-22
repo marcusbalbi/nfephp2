@@ -1424,10 +1424,14 @@ class ToolsNFePHP
             } else {
                 $xml = $docxml;
             }
+            
+             if(file_exists($this->priKEY) == false)
+                throw new Exception ("Certificado não Existe");
+            
             //obter o chave privada para a assinatura
             //modificado para permitir a leitura de arquivos maiores
             //que o normal que é cerca de 2kBytes.
-            $fp = fopen($this->priKEY, "r");
+            $fp = fopen($this->priKEY, "r");           
             $priv_key = '';
             while (!feof($fp)) {
                 $priv_key .= fread($fp, 8192);
