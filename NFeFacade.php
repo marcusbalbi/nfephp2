@@ -51,7 +51,7 @@ use NFEPHP2\NFe\XML\Exceptions\NfeCancelarException;
 use NFEPHP2\NFe\XML\Exceptions\NfeProcException;
 use NFEPHP2\NFe\XML\Exceptions\NfeEnviarCCeException;
 use DOMDocument;
-
+use Exception;
 /**
  * Description of NFe
  *
@@ -254,15 +254,35 @@ class NFeFacade {
             throw new NfeProcException("Erro ao Gerar arquivo NFe final ");
         }
     }
-
-    public function danfeNFeImprimir($chNFe,$sOrientacao = '', $sPapel = '', $sPathLogo = '')
+    
+    /**
+     * 
+     * @param type $chNFe
+     * @param array $config array com as configuracoes :
+     *          [sOrientecao]
+     *          [sPapel]
+     *          [sPathlogo]
+     *          [textoRodape]
+     *          [paginaWebRodape]
+     */
+    public function danfeNFeImprimir($chNFe,$config = array())
     {
         $pathXml = $this->toolsNFe->aprDir."/NFe{$chNFe}-procNfe.xml";
      
         if (is_file($pathXml)) {
             $docxml = file_get_contents($pathXml);
             
-            $danfe = new \DanfeNFePHP($docxml, $sOrientacao, $sPapel, $sPathLogo, 'I', '');
+            $danfe = new \NFEPHP2\NFe\DANFE\DanfeNFe($docxml, empty($config['sOrientacao'])?'' : $config['sOrientacao'] ,
+                                                              empty($config['sPapel'])? '' : $config['sPapel'],
+                                                              empty($config['sPathLogo'])? '' : $config['sPathLogo'], 'I', '');
+
+            if(!empty($config['textoRodape'])) {
+                $danfe->textoRodape = $config['textoRodape'];
+            }
+            
+            if(!empty($config['paginaWebRodape'])) {
+                $danfe->paginaWebRodape = $config['paginaWebRodape'];
+            }
             
             $id = $danfe->montaDANFE();
             
@@ -271,14 +291,35 @@ class NFeFacade {
         }
     }
     
-    public function danfeNFeSalvar($chNFe,$sOrientacao = '', $sPapel = '', $sPathLogo = '')
+    /**
+     * 
+     * @param type $chNFe
+     * @param array $config array com as configuracoes :
+     *          [sOrientecao]
+     *          [sPapel]
+     *          [sPathlogo]
+     *          [textoRodape]
+     *          [paginaWebRodape]
+     */
+    public function danfeNFeSalvar($chNFe,array $config)
     {
          $pathXml = $this->toolsNFe->aprDir."/NFe{$chNFe}-procNfe.xml";
         
          if (is_file($pathXml)) {
             $docxml = file_get_contents($pathXml);
             $pathinfo = pathinfo($pathXml);
-            $danfe = new \DanfeNFePHP($docxml ,$sOrientacao = '', $sPapel = '', $sPathLogo = '');
+            
+             $danfe = new \NFEPHP2\NFe\DANFE\DanfeNFe($docxml, empty($config['sOrientacao'])?'' : $config['sOrientacao'] ,
+                                                              empty($config['sPapel'])? '' : $config['sPapel'],
+                                                              empty($config['sPathLogo'])? '' : $config['sPathLogo']);
+            
+            if(!empty($config['textoRodape'])) {
+                $danfe->textoRodape = $config['textoRodape'];
+            }
+            
+            if(!empty($config['paginaWebRodape'])) {
+                $danfe->paginaWebRodape = $config['paginaWebRodape'];
+            }
             $id = $danfe->montaDANFE();
             $pdf = $danfe->printDANFE($id . '.pdf', 'S');
             
