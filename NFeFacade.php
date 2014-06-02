@@ -266,12 +266,12 @@ class NFeFacade {
      *          [paginaWebRodape]
      */
     public function danfeNFeImprimir($chNFe,$config = array())
-    {
+    {   
         $pathXml = $this->toolsNFe->aprDir."/NFe{$chNFe}-procNfe.xml";
-     
+
         if (is_file($pathXml)) {
             $docxml = file_get_contents($pathXml);
-            
+
             $danfe = new \NFEPHP2\NFe\DANFE\DanfeNFe($docxml, empty($config['sOrientacao'])?'' : $config['sOrientacao'] ,
                                                               empty($config['sPapel'])? '' : $config['sPapel'],
                                                               empty($config['sPathLogo'])? '' : $config['sPathLogo'], 'I', '');
@@ -288,6 +288,10 @@ class NFeFacade {
             
             $danfe->printDANFE($id . '.pdf', 'I'); 
            
+        }
+        else
+        {
+            throw new Exception("Arquivo não encontrado");
         }
     }
     
@@ -327,6 +331,11 @@ class NFeFacade {
             
             return $this->toolsNFe->pdfDir.$pathinfo['filename'].".pdf";
         }
+        else
+        {
+            throw new Exception("Arquivo não encontrado");
+        }
+            
     }
 
     /**
